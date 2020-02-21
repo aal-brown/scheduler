@@ -12,11 +12,12 @@ function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.day }
+
     case SET_APPLICATION_DATA:
-      console.log("state",state,"action", action)
       return {...state, days:action.days, appointments: action.appointments, interviewers: action.interviewers}
+
     case SET_INTERVIEW: {
-      return {...state, appointments: action.appointments}
+      return {...state, appointments: action.appointments, days: action.spotsDays}
     }
     default:
       throw new Error(
@@ -42,7 +43,6 @@ function reducer(state, action) {
       axios.get("http://localhost:8001/api/interviewers")
     ])
     .then((all) => {
-      console.log(all)
       dispatch({type: SET_APPLICATION_DATA, days:all[0].data,appointments:all[1].data, interviewers:all[2].data})
       })
   },[]);
@@ -51,8 +51,28 @@ function reducer(state, action) {
   const setDay = (day) => dispatch({type: SET_DAY, day});
 
 
+  function setSpots(change) {
+
+    let dayIndex;
+
+    for (let day of state.days) {
+      if (day.name === state.day) {
+        dayIndex = day.id - 1
+      }
+    }
+
+   let spots = (state.days[dayIndex].spots)+change
+   
+   let newDay = {...state.days[dayIndex], spots: spots}
+   let newDays = [...state.days]
+    newDays[dayIndex] = newDay
+
+    return newDays
+  }
+
   function bookInterview(id, interview) {
-  
+
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -63,10 +83,12 @@ function reducer(state, action) {
       [id]: appointment
     };
 
+    let spotsDays = setSpots(-1);
+
    return Promise.resolve(
       axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
       .then(() => {
-        return dispatch({type: SET_INTERVIEW, appointments})
+        return dispatch({type: SET_INTERVIEW, appointments, spotsDays })
       })
     )
   }
@@ -82,10 +104,12 @@ function cancelInterview(id) {
     const appointments = {...state.appointments,[id]: appointment};
 
   //Then to render the changes and update the database (since the changes we have made so far are only local) we need to do the following:
+
+  let spotsDays = setSpots(1)
    return Promise.resolve(
       axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
-        return dispatch({ type: SET_INTERVIEW, appointments})
+        return dispatch({ type: SET_INTERVIEW, appointments, spotsDays})
       })
     )
   }

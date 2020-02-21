@@ -26,7 +26,7 @@ Get the object
  */
 
 export function getInterview(state, interview) {
-  console.log("state123",state,"interview123",interview)
+  
   let interviewerObj;
 
   if (interview) {
@@ -60,6 +60,6 @@ export function getInterviewersForDay(state, day) {
       }
     })
   }
-  console.log("show interviewers",interviewers)
+
   return interviewers;
 }

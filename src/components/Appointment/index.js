@@ -13,8 +13,6 @@ import Appointment_css from "./styles.scss";
 import useVisualMode from "../../hooks/useVisualMode.js"
 
 export default function Appointment(props) {
-
-  console.log("propsinindex",props)
   
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";

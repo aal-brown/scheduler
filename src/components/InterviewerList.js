@@ -2,12 +2,19 @@ import React from "react";
 /* import ReactDOM from "react-dom"; */
 import InterviewerListItem from "components/InterviewerListItem";
 import interviewerlist from "components/InterviewerList.scss"
+import PropTypes from 'prop-types';
 
 /* import classNames from 'classnames/bind';
 
 let classnames = classNames.bind(interviewerlist) */
 
+InterviewerList.propTypes = {
+  interviewer: PropTypes.number,
+setInterviewer: PropTypes.func.isRequired,
+}
+
 export default function InterviewerList(props) {
+
 
 /* const interviews = classnames("interviewers") */
 
@@ -28,6 +35,8 @@ export default function InterviewerList(props) {
     </section>
   )
 }
+
+
 
 
 /* ReactDOM.render(

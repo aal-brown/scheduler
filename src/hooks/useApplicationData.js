@@ -1,6 +1,27 @@
 import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 
+
+const socket = new WebSocket("ws://localhost:8001", )
+
+//listen to socket events
+socket.onopen = ()=>{
+  /* console.log('socket successfully connected'); */
+  socket.send("ping")
+ };
+ socket.onmessage = (event)=>{
+ /*  console.log('Message Received: ', event);
+  console.log('Data: ', event.data) */
+  let receivedData = JSON.parse(event.data)
+
+  let interviewData = receivedData.interview
+ /*  console.log("interviewdata",interviewData) */
+
+ };
+
+
+ 
+
 export default function useApplicationData() {
 
 
@@ -16,6 +37,7 @@ function reducer(state, action) {
     case SET_APPLICATION_DATA:
       return {...state, days:action.days, appointments: action.appointments, interviewers: action.interviewers}
 
+      //Change to only pass interview and ID
     case SET_INTERVIEW: {
       return {...state, appointments: action.appointments, days: action.spotsDays}
     }
@@ -50,7 +72,7 @@ function reducer(state, action) {
 
   const setDay = (day) => dispatch({type: SET_DAY, day});
 
-
+//GEt day of actual interveiw, not state.day
   function setSpots(change) {
 
     let dayIndex;

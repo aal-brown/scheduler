@@ -50,9 +50,11 @@ function reducer(state, action) {
 
   let today = new Date();
   const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  /* day: week[today.getDay()], */
   
   const [state, dispatch] = useReducer(reducer,{
-    day: week[today.getDay()],
+    day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
@@ -60,11 +62,12 @@ function reducer(state, action) {
 
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers")
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
     ])
     .then((all) => {
+      
       dispatch({type: SET_APPLICATION_DATA, days:all[0].data,appointments:all[1].data, interviewers:all[2].data})
       })
   },[]);
@@ -108,7 +111,7 @@ function reducer(state, action) {
     let spotsDays = setSpots(-1);
 
    return Promise.resolve(
-      axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
+      axios.put(`/api/appointments/${id}`,appointment)
       .then(() => {
         return dispatch({type: SET_INTERVIEW, appointments, spotsDays })
       })
@@ -129,7 +132,7 @@ function cancelInterview(id) {
 
   let spotsDays = setSpots(1)
    return Promise.resolve(
-      axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      axios.delete(`/api/appointments/${id}`)
       .then(() => {
         return dispatch({ type: SET_INTERVIEW, appointments, spotsDays})
       })

@@ -6,10 +6,10 @@ export function getAppointmentsForDay(state, day) {
       return item;
     }
   })[0]
-
+  
   let appointments = [];
 
-  if (filteredDay && filteredDay.interviewers && filteredDay.appointments.length > 0) {
+  if (filteredDay && filteredDay.appointments.length > 0) {
     appointments = filteredDay.appointments.map((item) => {
       if(state.appointments[item]) {
         return (state.appointments[item])
@@ -53,7 +53,7 @@ export function getInterviewersForDay(state, day) {
   
   let interviewers = [];
   
-  if (filteredDay && filteredDay.interviewers !== undefined && filteredDay.interviewers.length > 0) {
+  if (filteredDay /* && filteredDay.interviewers !== undefined */ && filteredDay.interviewers.length > 0) {
     interviewers = filteredDay.interviewers.map((item) => {
       if(state.interviewers[item]) {
         return (state.interviewers[item])

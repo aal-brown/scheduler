@@ -97,6 +97,13 @@ function reducer(state, action) {
 
   function bookInterview(id, interview) {
 
+    let spotsDays;
+    
+    if (!state.appointments[id].interview) {
+      spotsDays = setSpots(-1);
+    } else {
+      spotsDays = setSpots(0)
+    }
 
     const appointment = {
       ...state.appointments[id],
@@ -107,8 +114,6 @@ function reducer(state, action) {
       ...state.appointments,
       [id]: appointment
     };
-
-    let spotsDays = setSpots(-1);
 
    return Promise.resolve(
       axios.put(`/api/appointments/${id}`,appointment)

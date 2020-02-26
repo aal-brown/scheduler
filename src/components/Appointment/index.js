@@ -23,6 +23,7 @@ export default function Appointment(props) {
   const EDIT = "EDIT";
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
+  const ERROR_CREATE = "ERROR_EDIT";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -33,12 +34,16 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
+
+    if (!interviewer) {
+    transition(ERROR_CREATE);
+    } else {
     transition(SAVING);
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(() => transition(ERROR_SAVE));
   }
-  
+}
   function cancel() {
     transition(DELETING, true);
     props.cancelInterview(props.id)
@@ -80,7 +85,7 @@ export default function Appointment(props) {
       />)}
       {mode === EDIT && (<Form
         name={props.interview.student}
-        interviewer={props.interview.interviewer}
+        interviewer={props.interview.interviewer.id}
         onEdit={() => transition(CREATE)}
         onSave={save}
         onCancel={() => transition(SHOW)}
@@ -93,6 +98,10 @@ export default function Appointment(props) {
       {mode === ERROR_DELETE && (<Error
         message="There was an error deleting the appointment"
         onClose={() => transition(SHOW, true)}
+      />)}
+      {mode === ERROR_CREATE && (<Error
+        message="Interviewer cannot be blank."
+        onClose={() => transition(CREATE, true)}
       />)}
     </article>
   );

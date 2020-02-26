@@ -1,6 +1,11 @@
 import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW
+} from "reducers/application";
 
 const socket = new WebSocket("ws://localhost:8001", )
 
@@ -25,28 +30,7 @@ socket.onopen = ()=>{
 export default function useApplicationData() {
 
 
-  const SET_DAY = "SET_DAY";
-  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
-
-function reducer(state, action) {
-  switch (action.type) {
-    case SET_DAY:
-      return { ...state, day: action.day }
-
-    case SET_APPLICATION_DATA:
-      return {...state, days:action.days, appointments: action.appointments, interviewers: action.interviewers}
-
-      //Change to only pass interview and ID
-    case SET_INTERVIEW: {
-      return {...state, appointments: action.appointments, days: action.spotsDays}
-    }
-    default:
-      throw new Error(
-        `Tried to reduce with unsupported action type: ${action.type}`
-      );
-  }
-}
+  
 
   let today = new Date();
   const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -98,7 +82,7 @@ function reducer(state, action) {
   function bookInterview(id, interview) {
 
     let spotsDays;
-    
+
     if (!state.appointments[id].interview) {
       spotsDays = setSpots(-1);
     } else {

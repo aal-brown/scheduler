@@ -3,10 +3,10 @@ import React from "react";
 
 import "components/Application.scss";
 
-import Appointment from "./Appointment/index.js"
-import DayList from "components/DayList"
+import Appointment from "./Appointment/index.js";
+import DayList from "components/DayList";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
-import useApplicationData from "hooks/useApplicationData"
+import useApplicationData from "hooks/useApplicationData";
 
 
 export default function Application(props) {
@@ -18,12 +18,12 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
-  const appointments = getAppointmentsForDay(state,state.day)
+  const appointments = getAppointmentsForDay(state,state.day);
 
   const schedule = appointments.map((appointment) => {
     
     const interview = getInterview(state, appointment.interview);
-    const interviewers = getInterviewersForDay(state, state.day)
+    const interviewers = getInterviewersForDay(state, state.day);
     
     return (
       <Appointment
@@ -41,7 +41,7 @@ export default function Application(props) {
   return (
     <main className="layout">
       <section className="sidebar">
-      <img
+        <img
           className="sidebar--centered"
           src="images/logo.png"
           alt="Interview Scheduler"
@@ -62,7 +62,8 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-          <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
-  )}
+  );
+}

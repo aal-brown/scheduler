@@ -12,18 +12,7 @@ export default function DayList(props) {
         spots={day.spots}
         selected={day.name === props.day}
         setDay={props.setDay} />
-    )
-  })
+    );
+  });
   return days;
 }
-
-
-/* ReactDOM.render(
-  <DayList
-    days={days}
-    day={tweet.avatar}
-    content={tweet.content}
-    date={tweet.date}
-  />,
-  document.getElementById("root")
-); */

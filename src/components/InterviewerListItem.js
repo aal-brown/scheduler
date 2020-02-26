@@ -1,5 +1,5 @@
 import React from "react";
-import interviewerlistitem from "components/InterviewerListItem.scss"
+import interviewerlistitem from "components/InterviewerListItem.scss";
 
 import classNames from 'classnames/bind';
 
@@ -11,7 +11,7 @@ export default function InterviewerListItem(props) {
   const interviewerClass = classnames("interviewers__item",{
     "interviewers__item--selected": props.selected,
     "interviewers__item-image": props.avatar,
-    "interviewers__item--selected-image": props.selected &&props.avatar
+    "interviewers__item--selected-image": props.selected && props.avatar
   });
 
   return (
@@ -22,6 +22,6 @@ export default function InterviewerListItem(props) {
         alt={props.name}
       />
       {props.selected && props.name}
-  </li>
+    </li>
   );
 }
